@@ -1,15 +1,21 @@
 from django.forms import model_to_dict
 from django.shortcuts import render
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
 
 from .models import Women
 # Create your views here.
 from .serializers import WomenSerializer
 
 
-class WomenViewSet(viewsets.ModelViewSet):
+class WomenViewSet(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
     queryset = Women.objects.all()
     serializer_class = WomenSerializer
 
